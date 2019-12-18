@@ -74,14 +74,17 @@ class BurgerBuilder extends Component {
     );
   };
 
-  isOrderedHandler = () =>{
+  isOrderedHandler = () => {
     // const ordered = this.state.purchasable;
     this.setState({ isOrdered: true });
-  }
-  modalHandler = () =>{
-    // const ordered = this.state.purchasable;
+  };
+  purchaseCancelHandler = () => {
     this.setState({ isOrdered: false });
-  }
+  };
+
+  purchaseContinueHandler = () => {
+    console.log("Continue");
+  };
   render() {
     const disabledInfo = {
       ...this.state.ingredients
@@ -92,11 +95,17 @@ class BurgerBuilder extends Component {
 
     return (
       <Fragment>
-         
-        <Modal show={this.state.isOrdered} modalClosed={this.modalHandler}>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal
+          show={this.state.isOrdered}
+          modalClosed={this.purchaseCancelHandler}
+        >
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            purchaseCancelled={this.purchaseCancelHandler}
+            purchaseContinued={this.purchaseContinueHandler}
+          />
         </Modal>
-    
+
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
@@ -105,7 +114,6 @@ class BurgerBuilder extends Component {
           price={this.state.totalPrice}
           purchasable={this.state.purchasable}
           isOrdered={this.isOrderedHandler}
-          
         />
       </Fragment>
     );
